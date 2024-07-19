@@ -15,6 +15,7 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
+            "is_active": self.is_active
             # no serializar la contraseña por razones de seguridad
         }
 
