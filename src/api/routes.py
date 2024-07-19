@@ -76,3 +76,24 @@ def get_character():
     }
 
     return jsonify(response_body), 200
+
+
+@api.route('/get_character_id/<int:id>', methods=['GET'])
+def get_character_id(id):
+    character = Character.query.get(id)
+    
+    if character is None:
+        response_body = {
+            'message': 'Character not found',
+            'results': []
+        }
+        return jsonify(response_body), 
+    
+    result = character.serialize()  
+    
+    response_body = {
+        'message': 'Ok',
+        'results': result
+    }
+
+    return jsonify(response_body), 200

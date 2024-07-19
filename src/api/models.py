@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import date
 
 db = SQLAlchemy()
 
@@ -23,7 +24,7 @@ class Character(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(200))
-    birthday = db.Column(db.DateTime, nullable=False)
+    birthday = db.Column(db.Date, nullable=False)
     image_url = db.Column(db.String(250))
     planet_id = db.Column(db.Integer, db.ForeignKey("planet.id"), nullable=True)
     vehicle_id = db.Column(db.Integer, db.ForeignKey("vehicle.id"), nullable=True)
