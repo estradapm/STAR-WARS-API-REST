@@ -24,7 +24,7 @@ class Character(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(200))
-    birthday = db.Column(db.Date, nullable=False)
+    birthday = db.Column(db.Date)
     image_url = db.Column(db.String(250))
     planet_id = db.Column(db.Integer, db.ForeignKey("planet.id"), nullable=True)
     vehicle_id = db.Column(db.Integer, db.ForeignKey("vehicle.id"), nullable=True)
@@ -77,19 +77,32 @@ class Vehicle(db.Model):
             "image_url": self.image_url,
         }
 
-class Favourite(db.Model):
+class UserFavoritePlanets(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
-    character_id = db.Column(db.Integer, db.ForeignKey("character.id"), nullable=True)
-    planet_id = db.Column(db.Integer, db.ForeignKey("planet.id"), nullable=True)
+    favorite_planet_id = db.Column(db.Integer, db.ForeignKey('planet.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
-        return f'<Favourite {self.id}>'
+        return f'<UserFavoritePlanets {self.id}>'
 
     def serialize(self):
         return {
             "id": self.id,
-            "user_id": self.user_id,
-            "character_id": self.character_id,
-            "planet_id": self.planet_id,
+            "favorite_planet_id": self.favorite_planet_id,
+            "user_id": self.user_id
+        }
+
+class UserFavoriteCharacter(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    favorite_character_id = db.Column(db.Integer, db.ForeignKey('character.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def __repr__(self):
+        return f'<UserFavoriteCharacter {self.id}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "favorite_character_id": self.favorite_character_id,
+            "user_id": self.user_id
         }
